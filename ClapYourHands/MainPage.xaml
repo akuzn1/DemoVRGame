@@ -13,7 +13,16 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <canvas:CanvasControl Grid.Column="0" x:Name="canvLeft" ClearColor="LightGray"/>
-        <canvas:CanvasControl Grid.Column="1" x:Name="canvRight" ClearColor="LightGray"/>
+        <canvas:CanvasControl Grid.Column="0" x:Name="canvLeft" ClearColor="LightGray" RenderTransformOrigin="0.5,0.5">
+            <canvas:CanvasControl.RenderTransform>
+                <CompositeTransform ScaleX="-1"/>
+            </canvas:CanvasControl.RenderTransform>
+        </canvas:CanvasControl>
+        <canvas:CanvasControl Grid.Column="1" x:Name="canvRight" ClearColor="LightGray" RenderTransformOrigin="0.5,0.5">
+            <canvas:CanvasControl.RenderTransform>
+                <CompositeTransform ScaleX="-1"/>
+            </canvas:CanvasControl.RenderTransform>
+        </canvas:CanvasControl>
+
     </Grid>
 </Page>

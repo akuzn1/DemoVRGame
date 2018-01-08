@@ -339,6 +339,5 @@ namespace ClapYourHands
                 deferral.Complete();
             }
         }
-
     }
 }
