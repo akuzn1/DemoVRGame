@@ -46,6 +46,9 @@ namespace ClapYourHands
         Object3D figure;
         int methodCount = 0;
         object lockObj = new object();
+        int zIndex = 500;
+        Point3D leftEyePos = new Point3D() { X = -40, Y = 0, Z = 0 };
+        Point3D rightEyePos = new Point3D() { X = 40, Y = 0, Z = 0 };
 
 
         public MainPage()
@@ -146,58 +149,40 @@ namespace ClapYourHands
 
         private void CanvasControlLeft_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
-            double sourceWidth;
-            double sourceHeight;
-            double destWidth;
-            double destHeight;
+            Rect destRect;
 
             lock (lockObj)
             {
                 CanvasBitmap c;
+
                 if (background == null)
                 {
                     return;
                 }
                 c = CanvasBitmap.CreateFromSoftwareBitmap(args.DrawingSession, background);
-                sourceWidth = background.PixelWidth;
-                sourceHeight = background.PixelHeight;
 
-                var sourceAspectRatio = sourceWidth / sourceHeight;
-                Rect sourceRect;
+                var rects = GetSourceDest(background, args);
 
-                destWidth = canvLeft.ActualWidth;
-                destHeight = canvLeft.ActualHeight;
-                var destAspectRatio = destWidth / destHeight;
-                Rect destRect = new Rect() { X = 0, Y = 0, Width = destWidth, Height = destHeight };
-
-                if (sourceAspectRatio > destAspectRatio)
-                {
-                    var sourceNewWidth = sourceHeight * destAspectRatio;
-                    sourceRect = new Rect() { X = (sourceWidth - sourceNewWidth) / 2, Y = 0, Width = sourceNewWidth, Height = sourceHeight };
-                }
-                else
-                {
-                    var sourceNewHeight = sourceWidth * destAspectRatio;
-                    sourceRect = new Rect() { X = 0, Y = (sourceHeight - sourceNewHeight) / 2, Width = sourceWidth, Height = sourceNewHeight };
-                }
-                args.DrawingSession.DrawImage(c, destRect, sourceRect);
+                args.DrawingSession.DrawImage(c, rects.Item2, rects.Item1);
+                destRect = rects.Item2;
             }
 
 
             if (figure == null)
                 return;
+            
+            DrawFigure(args, destRect, zIndex, leftEyePos);
+        }
 
-            var zIndex = 500;
-            var eyePos = new Point3D() { X = -40, Y = 0, Z = 0 };
-
-
+        private void DrawFigure(Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args, Rect destRect, int zIndex, Point3D eyePos)
+        {
             foreach (var plane in figure.Planes)
             {
                 var p1 = Projections.GetPerspectiveProjection(plane.Points[plane.Points.Count - 1], zIndex, eyePos);
                 var p2 = Projections.GetPerspectiveProjection(plane.Points[0], zIndex, eyePos);
                 args.DrawingSession.DrawLine(
-                        new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
-                        new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destRect.Width - (p1.X + destRect.Width / 2)), Y = (float)(p1.Y + destRect.Height / 2) },
+                        new Vector2() { X = (float)(destRect.Width - (p2.X + destRect.Width / 2)), Y = (float)(p2.Y + destRect.Height / 2) },
                         Colors.Black
                 );
                 for (int i = 0; i < plane.Points.Count - 1; i++)
@@ -205,82 +190,75 @@ namespace ClapYourHands
                     p1 = Projections.GetPerspectiveProjection(plane.Points[i], zIndex, eyePos);
                     p2 = Projections.GetPerspectiveProjection(plane.Points[i + 1], zIndex, eyePos);
                     args.DrawingSession.DrawLine(
-                        new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
-                        new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destRect.Width - (p1.X + destRect.Width / 2)), Y = (float)(p1.Y + destRect.Height / 2) },
+                        new Vector2() { X = (float)(destRect.Width - (p2.X + destRect.Width / 2)), Y = (float)(p2.Y + destRect.Height / 2) },
                         Colors.Black
                     );
                 }
             }
         }
-        private void CanvasControlRight_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
+
+        private Tuple<Rect, Rect> GetSourceDest(SoftwareBitmap background, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
             double sourceWidth;
             double sourceHeight;
             double destWidth;
             double destHeight;
 
+            if (background == null)
+            {
+                return null;
+            }
+            var c = CanvasBitmap.CreateFromSoftwareBitmap(args.DrawingSession, background);
+            sourceWidth = background.PixelWidth;
+            sourceHeight = background.PixelHeight;
+
+            var sourceAspectRatio = sourceWidth / sourceHeight;
+            Rect sourceRect;
+
+            destWidth = canvLeft.ActualWidth;
+            destHeight = canvLeft.ActualHeight;
+            var destAspectRatio = destWidth / destHeight;
+            var destRect = new Rect() { X = 0, Y = 0, Width = destWidth, Height = destHeight };
+
+            if (sourceAspectRatio > destAspectRatio)
+            {
+                var sourceNewWidth = sourceHeight * destAspectRatio;
+                sourceRect = new Rect() { X = (sourceWidth - sourceNewWidth) / 2, Y = 0, Width = sourceNewWidth, Height = sourceHeight };
+            }
+            else
+            {
+                var sourceNewHeight = sourceWidth * destAspectRatio;
+                sourceRect = new Rect() { X = 0, Y = (sourceHeight - sourceNewHeight) / 2, Width = sourceWidth, Height = sourceNewHeight };
+            }
+
+            return new Tuple<Rect, Rect>(sourceRect, destRect);
+        }
+
+        private void CanvasControlRight_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
+        {
+            Rect destRect;
+
             lock (lockObj)
             {
-                CanvasBitmap c = null;
+                CanvasBitmap c;
+
                 if (background == null)
                 {
                     return;
                 }
                 c = CanvasBitmap.CreateFromSoftwareBitmap(args.DrawingSession, background);
 
-                sourceWidth = background.PixelWidth;
-                sourceHeight = background.PixelHeight;
+                var rects = GetSourceDest(background, args);
 
-                var sourceAspectRatio = sourceWidth / sourceHeight;
-                Rect sourceRect;
-
-                destWidth = canvRight.ActualWidth;
-                destHeight = canvRight.ActualHeight;
-                var destAspectRatio = destWidth / destHeight;
-                Rect destRect = new Rect() { X = 0, Y = 0, Width = destWidth, Height = destHeight };
-
-                if (sourceAspectRatio > destAspectRatio)
-                {
-                    var sourceNewWidth = sourceHeight * destAspectRatio;
-                    sourceRect = new Rect() { X = (sourceWidth - sourceNewWidth) / 2, Y = 0, Width = sourceNewWidth, Height = sourceHeight };
-                }
-                else
-                {
-                    var sourceNewHeight = sourceWidth * destAspectRatio;
-                    sourceRect = new Rect() { X = 0, Y = (sourceHeight - sourceNewHeight) / 2, Width = sourceWidth, Height = sourceNewHeight };
-                }
-
-
-                args.DrawingSession.DrawImage(c, destRect, sourceRect);
+                args.DrawingSession.DrawImage(c, rects.Item2, rects.Item1);
+                destRect = rects.Item2;
             }
-
 
             if (figure == null)
                 return;
 
-            var zIndex = 500;
-            var eyePos = new Point3D() { X = 40, Y = 0, Z = 0 };
-
-            foreach (var plane in figure.Planes)
-            {
-                var p1 = Projections.GetPerspectiveProjection(plane.Points[plane.Points.Count - 1], zIndex, eyePos);
-                var p2 = Projections.GetPerspectiveProjection(plane.Points[0], zIndex, eyePos);
-                args.DrawingSession.DrawLine(
-                        new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
-                        new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
-                        Colors.Black
-                );
-                for (int i = 0; i < plane.Points.Count - 1; i++)
-                {
-                    p1 = Projections.GetPerspectiveProjection(plane.Points[i], zIndex, eyePos);
-                    p2 = Projections.GetPerspectiveProjection(plane.Points[i + 1], zIndex, eyePos);
-                    args.DrawingSession.DrawLine(
-                        new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
-                        new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
-                        Colors.Black
-                    );
-                }
-            }
+            DrawFigure(args, destRect, zIndex, rightEyePos);
         }
 
 
