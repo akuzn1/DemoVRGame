@@ -197,8 +197,8 @@ namespace ClapYourHands
                 var p1 = Projections.GetPerspectiveProjection(plane.Points[plane.Points.Count - 1], zIndex);
                 var p2 = Projections.GetPerspectiveProjection(plane.Points[0], zIndex);
                 args.DrawingSession.DrawLine(
-                        new Vector2() { X = (float)(p1.X + destWidth / 2), Y = (float)(p1.Y + destHeight / 2) },
-                        new Vector2() { X = (float)(p2.X + destWidth / 2), Y = (float)(p2.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
                         Colors.Black
                 );
                 for (int i = 0; i < plane.Points.Count - 1; i++)
@@ -206,8 +206,8 @@ namespace ClapYourHands
                     p1 = Projections.GetPerspectiveProjection(plane.Points[i], zIndex);
                     p2 = Projections.GetPerspectiveProjection(plane.Points[i + 1], zIndex);
                     args.DrawingSession.DrawLine(
-                        new Vector2() { X = (float)(p1.X + destWidth / 2), Y = (float)(p1.Y + destHeight / 2) },
-                        new Vector2() { X = (float)(p2.X + destWidth / 2), Y = (float)(p2.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
                         Colors.Black
                     );
                 }
@@ -266,8 +266,8 @@ namespace ClapYourHands
                 var p1 = Projections.GetPerspectiveProjection(plane.Points[plane.Points.Count - 1], zIndex);
                 var p2 = Projections.GetPerspectiveProjection(plane.Points[0], zIndex);
                 args.DrawingSession.DrawLine(
-                        new Vector2() { X = (float)(p1.X + destWidth / 2), Y = (float)(p1.Y + destHeight / 2) },
-                        new Vector2() { X = (float)(p2.X + destWidth / 2), Y = (float)(p2.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
                         Colors.Black
                 );
                 for (int i = 0; i < plane.Points.Count - 1; i++)
@@ -275,8 +275,8 @@ namespace ClapYourHands
                     p1 = Projections.GetPerspectiveProjection(plane.Points[i], zIndex);
                     p2 = Projections.GetPerspectiveProjection(plane.Points[i + 1], zIndex);
                     args.DrawingSession.DrawLine(
-                        new Vector2() { X = (float)(p1.X + destWidth / 2), Y = (float)(p1.Y + destHeight / 2) },
-                        new Vector2() { X = (float)(p2.X + destWidth / 2), Y = (float)(p2.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
+                        new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
                         Colors.Black
                     );
                 }
