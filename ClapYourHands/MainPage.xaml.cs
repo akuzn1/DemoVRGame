@@ -43,8 +43,7 @@ namespace ClapYourHands
         DispatcherTimer timer;
         CaptureElement previewControl;
         SoftwareBitmap background;
-        Object3D figureLeft;
-        Object3D figureRight;
+        Object3D figure;
         int methodCount = 0;
         object lockObj = new object();
 
@@ -89,8 +88,7 @@ namespace ClapYourHands
                 return;
             }
 
-            figureLeft = Figures.GetCube(new Point3D() { X = 40, Y = 0, Z = 100 }, 70);
-            figureRight = Figures.GetCube(new Point3D() { X = -40, Y = 0, Z = 100 }, 70);
+            figure = Figures.GetCube(new Point3D() { X = 0, Y = 0, Z = 100 }, 70);
 
             await Task.Delay(TimeSpan.FromMilliseconds(100));
             canvLeft.Draw += CanvasControlLeft_Draw;
@@ -115,8 +113,7 @@ namespace ClapYourHands
                 methodCount++;
             }
 
-            figureLeft.RotateX(0.1);
-            figureRight.RotateX(0.1);
+            figure.RotateX(0.1);
             SoftwareBitmap previewBitmap = null;
             await Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
             {
@@ -187,15 +184,17 @@ namespace ClapYourHands
             }
 
 
-            if (figureLeft == null)
+            if (figure == null)
                 return;
 
             var zIndex = 500;
+            var eyePos = new Point3D() { X = -40, Y = 0, Z = 0 };
 
-            foreach (var plane in figureLeft.Planes)
+
+            foreach (var plane in figure.Planes)
             {
-                var p1 = Projections.GetPerspectiveProjection(plane.Points[plane.Points.Count - 1], zIndex);
-                var p2 = Projections.GetPerspectiveProjection(plane.Points[0], zIndex);
+                var p1 = Projections.GetPerspectiveProjection(plane.Points[plane.Points.Count - 1], zIndex, eyePos);
+                var p2 = Projections.GetPerspectiveProjection(plane.Points[0], zIndex, eyePos);
                 args.DrawingSession.DrawLine(
                         new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
                         new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
@@ -203,8 +202,8 @@ namespace ClapYourHands
                 );
                 for (int i = 0; i < plane.Points.Count - 1; i++)
                 {
-                    p1 = Projections.GetPerspectiveProjection(plane.Points[i], zIndex);
-                    p2 = Projections.GetPerspectiveProjection(plane.Points[i + 1], zIndex);
+                    p1 = Projections.GetPerspectiveProjection(plane.Points[i], zIndex, eyePos);
+                    p2 = Projections.GetPerspectiveProjection(plane.Points[i + 1], zIndex, eyePos);
                     args.DrawingSession.DrawLine(
                         new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
                         new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
@@ -256,15 +255,16 @@ namespace ClapYourHands
             }
 
 
-            if (figureRight == null)
+            if (figure == null)
                 return;
 
             var zIndex = 500;
+            var eyePos = new Point3D() { X = 40, Y = 0, Z = 0 };
 
-            foreach (var plane in figureRight.Planes)
+            foreach (var plane in figure.Planes)
             {
-                var p1 = Projections.GetPerspectiveProjection(plane.Points[plane.Points.Count - 1], zIndex);
-                var p2 = Projections.GetPerspectiveProjection(plane.Points[0], zIndex);
+                var p1 = Projections.GetPerspectiveProjection(plane.Points[plane.Points.Count - 1], zIndex, eyePos);
+                var p2 = Projections.GetPerspectiveProjection(plane.Points[0], zIndex, eyePos);
                 args.DrawingSession.DrawLine(
                         new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
                         new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
@@ -272,8 +272,8 @@ namespace ClapYourHands
                 );
                 for (int i = 0; i < plane.Points.Count - 1; i++)
                 {
-                    p1 = Projections.GetPerspectiveProjection(plane.Points[i], zIndex);
-                    p2 = Projections.GetPerspectiveProjection(plane.Points[i + 1], zIndex);
+                    p1 = Projections.GetPerspectiveProjection(plane.Points[i], zIndex, eyePos);
+                    p2 = Projections.GetPerspectiveProjection(plane.Points[i + 1], zIndex, eyePos);
                     args.DrawingSession.DrawLine(
                         new Vector2() { X = (float)(destWidth - (p1.X + destWidth / 2)), Y = (float)(p1.Y + destHeight / 2) },
                         new Vector2() { X = (float)(destWidth - (p2.X + destWidth / 2)), Y = (float)(p2.Y + destHeight / 2) },
