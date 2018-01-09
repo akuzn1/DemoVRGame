@@ -29,7 +29,7 @@ namespace Basic3DLib
             Object3D obj = new Object3D() {
                 Points = new List<Point3D>(new Point3D[] { p1, p2, p3, p4, p5, p6, p7, p8 }),
                 Planes = new List<Plane3D>(new Plane3D[] { pl1, pl2, pl3, pl4, pl5, pl6 }),
-                Center = new Point3D() { X = 0, Y = 0, Z = 0 }
+                Center = new Point3D() { X = centralPosition.X, Y = centralPosition.Y, Z = centralPosition.Z }
             };
 
             return obj;
