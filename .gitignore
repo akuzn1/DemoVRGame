@@ -2,3 +2,6 @@
 /Basic3DLib/obj
 /ClapYourHands/bin
 /ClapYourHands/obj
+/ClapYourHands/BitmapAnalyzers/bin
+/ClapYourHands/BitmapAnalyzers/obj
+/ClapYourHands/*.user

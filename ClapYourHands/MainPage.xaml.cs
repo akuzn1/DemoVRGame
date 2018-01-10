@@ -57,6 +57,10 @@ namespace ClapYourHands
         public MainPage()
         {
             this.InitializeComponent();
+
+            canvLeft.Visibility = Visibility.Collapsed;
+            canvRight.Visibility = Visibility.Collapsed;
+
             Application.Current.Suspending += Application_Suspending;
         }
 
@@ -105,6 +109,8 @@ namespace ClapYourHands
             };
             timer.Tick += Timer_Tick;
             timer.Start();
+            canvLeft.Visibility = Visibility.Visible;
+            canvRight.Visibility = Visibility.Visible;
         }
 
         private async void Timer_Tick(object sender, object e)
@@ -316,6 +322,8 @@ namespace ClapYourHands
         }
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
+            canvLeft.Visibility = Visibility.Collapsed;
+            canvRight.Visibility = Visibility.Collapsed;
             // Handle global application events only if this page is active
             if (Frame.CurrentSourcePageType == typeof(MainPage))
             {
