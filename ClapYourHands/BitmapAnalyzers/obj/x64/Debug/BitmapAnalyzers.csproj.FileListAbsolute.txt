@@ -1,0 +1,17 @@
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\bin\x64\Debug\BitmapAnalyzers.dll
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\bin\x64\Debug\BitmapAnalyzers.pdb
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\bin\x64\Debug\BitmapAnalyzers.pri
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\BitmapAnalyzers.csprojResolveAssemblyReference.cache
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\BitmapAnalyzers.dll
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\BitmapAnalyzers.pdb
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\priconfig.xml
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\priconfig.xml.intermediate
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\layout.resfiles
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\layout.resfiles.intermediate
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\resources.resfiles
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\resources.resfiles.intermediate
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\pri.resfiles
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\pri.resfiles.intermediate
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\qualifiers.txt
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\qualifiers.txt.intermediate
+C:\Projects\GitHub\DemoVRGame\ClapYourHands\BitmapAnalyzers\obj\x64\Debug\MultipleQualifiersPerDimensionFound.txt

@@ -27,6 +27,9 @@ using Basic3DLib;
 using Windows.UI;
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
+using BitmapAnalyzers.Colors;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -55,7 +58,6 @@ namespace ClapYourHands
         {
             this.InitializeComponent();
             Application.Current.Suspending += Application_Suspending;
-
         }
 
         private async Task StartPreviewAsync()
@@ -134,10 +136,14 @@ namespace ClapYourHands
                         background = new SoftwareBitmap(BitmapPixelFormat.Bgra8, previewBitmap.PixelWidth, previewBitmap.PixelHeight, previewBitmap.BitmapAlphaMode);
 
                     previewBitmap.CopyTo(background);
+                    ColorsDetector detector = new ColorsDetector();
+                    detector.Detect(background);
                 }
 
 
             });
+
+
             lock (lockObj)
             {
                 methodCount--;
@@ -267,6 +273,7 @@ namespace ClapYourHands
             await StartPreviewAsync();
             base.OnNavigatedTo(e);
         }
+
 
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
